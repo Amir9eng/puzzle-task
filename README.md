@@ -18,6 +18,10 @@ npm run build
 npm run preview   # optional: preview production build
 ```
 
+## Deploy (Vercel)
+
+The project includes a `vercel.json` for SPA routing and asset caching. Connect the repo to [Vercel](https://vercel.com); the default build command and `dist` output are already set.
+
 ## Stack
 
 - **React 19** + **TypeScript**
