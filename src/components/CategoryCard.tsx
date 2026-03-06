@@ -90,7 +90,7 @@ export function CategoryCard({
             >
               <span
                 className="inline-flex transition-transform duration-200"
-                style={{ transform: isExpanded ? 'none' : 'rotate(180deg)' }}
+                style={{ transform: isExpanded ? 'rotate(0deg)' : 'rotate(180deg)' }}
               >
                 <HugeiconsIcon icon={ArrowUp01Icon} {...iconProps} size={18} />
               </span>
@@ -98,8 +98,7 @@ export function CategoryCard({
           </div>
         </div>
 
-        {isExpanded && (
-          <div className="mt-4 pt-4 border-t border-gray-200/80 space-y-4">
+        <div className={isExpanded ? 'mt-4 pt-4 border-t border-gray-200/80 space-y-4' : 'hidden'}>
             {category.services.map((service) => (
               <div
                 key={service.id}
@@ -202,8 +201,7 @@ export function CategoryCard({
               </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
     </section>
   );
 }
