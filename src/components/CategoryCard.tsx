@@ -89,18 +89,19 @@ export const CategoryCard = memo(function CategoryCard({
               className="p-2 rounded-lg text-gray-600 hover:bg-gray-200/80 hover:text-gray-900"
               aria-label="Toggle category"
               onClick={() => onToggleExpand(category.id)}
-              style={{ transform: 'translateZ(0)' }}
             >
-              <HugeiconsIcon
-                icon={ArrowUp01Icon}
-                {...iconProps}
-                size={18}
+              <span
                 style={{
                   display: 'block',
+                  lineHeight: 0,
                   transform: isExpanded ? 'rotate(0deg)' : 'rotate(180deg)',
                   transition: 'transform 200ms ease',
+                  transformOrigin: 'center',
+                  willChange: 'transform',
                 }}
-              />
+              >
+                <HugeiconsIcon icon={ArrowUp01Icon} {...iconProps} size={18} />
+              </span>
             </button>
           </div>
         </div>

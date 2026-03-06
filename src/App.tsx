@@ -44,14 +44,7 @@ function App() {
     }
   }, [hydrated, categories, addons]);
 
-  useEffect(() => {
-    if (!hydrated || categories.length === 0) return;
-    if (expandedCategoryIds.size === 0) {
-      setExpandedCategoryIds(new Set([categories[0].id]));
-    }
-  }, [hydrated, categories, expandedCategoryIds.size]);
-
-  const toggleCategoryExpanded = useCallback((id: string) => {
+const toggleCategoryExpanded = useCallback((id: string) => {
     setExpandedCategoryIds((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
