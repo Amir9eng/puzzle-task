@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   ArrowUp01Icon,
@@ -29,7 +30,7 @@ interface Props {
   onDeleteService: (categoryId: string, serviceId: string) => void;
 }
 
-export function CategoryCard({
+export const CategoryCard = memo(function CategoryCard({
   category,
   isExpanded,
   editingCategoryId,
@@ -47,8 +48,9 @@ export function CategoryCard({
   onDeleteService,
 }: Props) {
   return (
-    <section className="rounded-2xl bg-gray-100/90 shadow-sm overflow-visible mb-8">
+    <section className="rounded-2xl bg-gray-100/90 shadow-sm mb-8">
       <div className="p-4">
+        {/* Header */}
         <div className="flex items-center justify-between gap-2">
           {editingCategoryId === category.id ? (
             <input
@@ -65,7 +67,7 @@ export function CategoryCard({
           ) : (
             <h2 className="text-lg font-bold text-black">{category.name}</h2>
           )}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0">
             <button
               type="button"
               className="p-2 rounded-lg text-gray-600 hover:bg-gray-200/80 hover:text-gray-900"
@@ -85,20 +87,33 @@ export function CategoryCard({
             <button
               type="button"
               className="p-2 rounded-lg text-gray-600 hover:bg-gray-200/80 hover:text-gray-900"
-              aria-label={isExpanded ? 'Collapse' : 'Expand'}
+              aria-label="Toggle category"
               onClick={() => onToggleExpand(category.id)}
+              style={{ transform: 'translateZ(0)' }}
             >
-              <span
-                className="inline-flex transition-transform duration-200"
-                style={{ transform: isExpanded ? 'rotate(0deg)' : 'rotate(180deg)' }}
-              >
-                <HugeiconsIcon icon={ArrowUp01Icon} {...iconProps} size={18} />
-              </span>
+              <HugeiconsIcon
+                icon={ArrowUp01Icon}
+                {...iconProps}
+                size={18}
+                style={{
+                  display: 'block',
+                  transform: isExpanded ? 'rotate(0deg)' : 'rotate(180deg)',
+                  transition: 'transform 200ms ease',
+                }}
+              />
             </button>
           </div>
         </div>
 
-        <div className={isExpanded ? 'mt-4 pt-4 border-t border-gray-200/80 space-y-4' : 'hidden'}>
+        {/* Collapsible content — always mounted, collapsed via max-height */}
+        <div
+          style={{
+            overflow: 'hidden',
+            maxHeight: isExpanded ? '9999px' : '0px',
+            transition: isExpanded ? 'max-height 300ms ease-in' : 'max-height 200ms ease-out',
+          }}
+        >
+          <div className="mt-4 pt-4 border-t border-gray-200/80 space-y-4">
             {category.services.map((service) => (
               <div
                 key={service.id}
@@ -108,9 +123,7 @@ export function CategoryCard({
                 {editingServiceId === service.id ? (
                   <ServiceEditForm
                     service={service}
-                    onSave={(updates) =>
-                      onUpdateService(category.id, service.id, updates)
-                    }
+                    onSave={(updates) => onUpdateService(category.id, service.id, updates)}
                     onCancel={onCancelEditService}
                   />
                 ) : (
@@ -202,6 +215,7 @@ export function CategoryCard({
             ))}
           </div>
         </div>
+      </div>
     </section>
   );
-}
+});
